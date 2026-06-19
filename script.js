@@ -6,8 +6,24 @@
 // --- Game Configuration & Constants ---
 
 const GAME_CONFIG = {
-  // Card emoji options (Paw Patrol, Spider-Man characters, and fun placeholders)
-  CARD_EMOJIS: ['🐕', '🚒', '✈️', '🤸‍♂️', '🔥', '❄️', '🐾', '⚡', '🌟', '💪', '🎮', '🎬', '🎪', '🎨', '🎭'],
+  // Card image paths for Paw Patrol and other characters
+  CARD_IMAGES: [
+    'images/Chase.png',
+    'images/Everest.png',
+    'images/Green.png',
+    'images/Luigi.png',
+    'images/Mario Racoon.png',
+    'images/Mario.png',
+    'images/Marshall.png',
+    'images/paw patrol gang.png',
+    'images/Rocky.png',
+    'images/rubble.png',
+    'images/Ryder.png',
+    'images/Skye.png',
+    'images/spiderman-png-47353.png',
+    'images/Zuma.png',
+    'images/Paw Patrol Symbol.png'
+  ],
   
   // Difficulty levels with grid sizes for mobile display
   DIFFICULTY_LEVELS: [
@@ -54,18 +70,18 @@ function initGame() {
 /**
  * Create the HTML elements for a single card element in our board
  */ 
-function createCardElement(cardEmoji, pairId) {
+function createCardElement(cardImage, pairId) {
   const divElement = document.createElement('div');
   
   // Card is hidden initially with this class: not flipped yet, showing back of card design
   divElement.classList.add(
     'memory-card',   // Add base CSS class from style.css file for layout and styles
-    'hidden'         // Hide the actual emoji face (we'll show a placeholder instead)
+    'hidden'         // Hide the actual image (we'll show a placeholder instead)
   );
   
-  // Store which pair this belongs to and the emoji
+  // Store which pair this belongs to and the image path
   divElement.dataset.pairId = pairId;
-  divElement.dataset.emoji = cardEmoji;
+  divElement.dataset.image = cardImage;
   
   return divElement;
 }
@@ -76,8 +92,8 @@ function createCardElement(cardEmoji, pairId) {
 function createGameUI(level) {
   const currentGridConfig = GAME_CONFIG.DIFFICULTY_LEVELS[gameState.currentLevelIndex]; // Level config (grid size, cards per row etc)
   
-  // Get only the number of emojis needed for this difficulty level
-  const emojisForLevel = GAME_CONFIG.CARD_EMOJIS.slice(0, currentGridConfig.pairsCount);
+  // Get only the number of images needed for this difficulty level
+  const imagesForLevel = GAME_CONFIG.CARD_IMAGES.slice(0, currentGridConfig.pairsCount);
   gameState.totalMatchedPairsNeeded = currentGridConfig.pairsCount;
   
   let gridElement = document.createElement('div');   // Parent div for our entire card collection
@@ -88,17 +104,17 @@ function createGameUI(level) {
   
   // Create pairs and shuffle them
   let cardPairs = [];
-  emojisForLevel.forEach((emoji, index) => {
-    cardPairs.push({ emoji, pairId: index });
-    cardPairs.push({ emoji, pairId: index });
+  imagesForLevel.forEach((image, index) => {
+    cardPairs.push({ image, pairId: index });
+    cardPairs.push({ image, pairId: index });
   });
   
   const shuffledPairs = shuffleArray(cardPairs);
   
-  // Loop through all duplicate animal emoji entries - pair them up into individual game pieces
+  // Loop through all duplicate image entries - pair them up into individual game pieces
   for (let i = 0; i < shuffledPairs.length; i++) {
     const cardData = shuffledPairs[i];
-    const cardEl = createCardElement(cardData.emoji, cardData.pairId);
+    const cardEl = createCardElement(cardData.image, cardData.pairId);
     
     // Add a simple placeholder design to the "back" of unflipped cards so it doesn't look blank 
     cardEl.innerHTML = '<div class="card-back"></div>';  // Use innerHTML instead of textContent for this! 
@@ -141,11 +157,11 @@ function handleCardClick(event) {
  * Visual function to flip a card over when player clicks/taps on it during gameplay session. 
  */
 function flipCardVisuals(cardElement, isFaceUp) {       // Toggle between showing front/back of each game piece/card face  
-  if (isFaceUp) {                                       // Show the actual emoji content stored in data attribute!
+  if (isFaceUp) {                                       // Show the actual image content stored in data attribute!
     cardElement.classList.add('flipped');              // Add 'flipped' CSS class that rotates it open
-    cardElement.innerHTML = cardElement.dataset.emoji; // Show the emoji
+    cardElement.innerHTML = `<img src="${cardElement.dataset.image}" alt="card" style="width: 100%; height: 100%; object-fit: contain; padding: 5px;">`;  // Show the image
   } else {                                              // Hide/flip back to show pattern design on reverse side of card element when not face up yet
-    cardElement.classList.remove('flipped');           // Remove flipped class from DOM node so user can't see emoji underneath
+    cardElement.classList.remove('flipped');           // Remove flipped class from DOM node so user can't see image underneath
     cardElement.innerHTML = '<div class="card-back"></div>'; // Show the back design
   }
 }
