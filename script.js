@@ -29,7 +29,7 @@ const GAME_CONFIG = {
   DIFFICULTY_LEVELS: [
     { name: "Easy", gridSize: 3, cardsPerRow: 4, pairsCount: 6 },   // 12 cards (6 pairs)
     { name: "Medium", gridSize: 4, cardsPerRow: 5, pairsCount: 10 }, // 20 cards (10 pairs)  
-    { name: "Hard", gridSize: 3, cardsPerRow: 8, pairsCount: 12 }    // 24 cards (12 pairs) - might be tight on some phones
+    { name: "Hard", gridSize: 3, cardsPerRow: 4, pairsCount: 12 }    // 24 cards (12 pairs) - 6x4 grid for better phone fit
   ],
 
   // Timing constants for game logic

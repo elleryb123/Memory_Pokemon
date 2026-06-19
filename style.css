@@ -105,6 +105,10 @@ body {
     grid-template-columns: repeat(5, 1fr);
 }
 
+.memory-grid.grid-cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
 .memory-grid.grid-cols-8 {
     grid-template-columns: repeat(8, 1fr);
 }
